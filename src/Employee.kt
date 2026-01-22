@@ -32,15 +32,47 @@
 //    fun setPosition(value: String) { position = value }
 //}
 
+//class Employee : ReportGenerator {
+//
+//    override fun generateReport(): String {
+//        return """
+//            === ОТЧЕТ О СОТРУДНИКЕ ===
+//            ФИО: $fullName
+//            Должность: $position
+//            Зарплата: $salary руб.
+//            Опыт работы: $yearsOfExperience лет
+//            ===========================
+//        """.trimIndent()
+//    }
+//}
+
+
 class Employee : ReportGenerator {
 
+    private var currentTask: Task? = null
+
+    fun assignTask(newTask: Task) {
+        val current = currentTask
+        if (current != null && !current.isCompleted) {
+            println("Сотрудник $fullName уже занят задачей '${current.title}'")
+        } else {
+            currentTask = newTask
+            println("Задача '${newTask.title}' назначена сотруднику $fullName")
+        }
+    }
+
     override fun generateReport(): String {
+        val taskInfo = currentTask?.let {
+            "Текущая задача: ${it.title} (Приоритет: ${it.priority}, Выполнена: ${if (it.isCompleted) "Да" else "Нет"})"
+        } ?: "Текущая задача: Нет"
+
         return """
             === ОТЧЕТ О СОТРУДНИКЕ ===
             ФИО: $fullName
             Должность: $position
             Зарплата: $salary руб.
             Опыт работы: $yearsOfExperience лет
+            $taskInfo
             ===========================
         """.trimIndent()
     }

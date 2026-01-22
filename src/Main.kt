@@ -64,23 +64,63 @@
 //    testDept.printDepartmentGoal()
 //}
 
+//fun main() {
+//    println("\n=== Демонстрация полиморфизма ===")
+//
+//    val employee = Employee().apply {
+//        setFullName("Анна Петрова")
+//        setPosition("Тестировщик")
+//        setSalary(45000)
+//        setYearsOfExperience(3)
+//    }
+//
+//    val devDept = DevelopmentDepartment()
+//    val testDept = TestingDepartment()
+//
+//    val reportGenerators: List<ReportGenerator> = listOf(employee, devDept, testDept)
+//
+//    for (generator in reportGenerators) {
+//        println(generator.generateReport())
+//        println()
+//    }
+//}
+
+
 fun main() {
-    println("\n=== Демонстрация полиморфизма ===")
+    println("=== ИНТЕГРИРОВАННАЯ ДЕМОНСТРАЦИЯ ===\n")
 
+    // Создаем сотрудника
     val employee = Employee().apply {
-        setFullName("Анна Петрова")
-        setPosition("Тестировщик")
-        setSalary(45000)
-        setYearsOfExperience(3)
+        setFullName("Сергей Сидоров")
+        setPosition("Team Lead")
+        setSalary(120000)
+        setYearsOfExperience(8)
     }
 
-    val devDept = DevelopmentDepartment()
-    val testDept = TestingDepartment()
+    // Создаем отдел
+    val department = DevelopmentDepartment()
 
-    val reportGenerators: List<ReportGenerator> = listOf(employee, devDept, testDept)
+    // Создаем задачи
+    val task1 = Task("Проектирование", "Спроектировать новую архитектуру", Priority.HIGH)
+    val task2 = Task("Code Review", "Проверить код младших разработчиков", Priority.MEDIUM)
+    val task3 = Task("Встреча", "Провести планёрку", Priority.LOW)
 
-    for (generator in reportGenerators) {
-        println(generator.generateReport())
-        println()
-    }
+    // Назначаем задачи
+    employee.assignTask(task1)
+    employee.assignTask(task2)  // Должно вывести сообщение о занятости
+
+    // Завершаем первую задачу
+    task1.isCompleted = true
+    employee.assignTask(task3)  // Теперь можно назначить новую
+
+    // Выводим отчеты
+    println("\n=== СВОДНЫЕ ОТЧЕТЫ ===")
+    println(employee.generateReport())
+    println()
+    println(department.generateReport())
+
+    // Демонстрация полиморфизма
+    println("\n=== ПОЛИМОРФНЫЙ ВЫЗОВ ===")
+    val entities: List<ReportGenerator> = listOf(employee, department)
+    entities.forEach { println(it.generateReport() + "\n") }
 }
