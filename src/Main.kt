@@ -54,12 +54,33 @@
 //    println("\nКопия task4: $task4")
 //}
 
+//fun main() {
+//    println("\n Демонстрация наследования ")
+//
+//    val devDept = DevelopmentDepartment()
+//    val testDept = TestingDepartment()
+//
+//    devDept.printDepartmentGoal()
+//    testDept.printDepartmentGoal()
+//}
+
 fun main() {
-    println("\n Демонстрация наследования ")
+    println("\n=== Демонстрация полиморфизма ===")
+
+    val employee = Employee().apply {
+        setFullName("Анна Петрова")
+        setPosition("Тестировщик")
+        setSalary(45000)
+        setYearsOfExperience(3)
+    }
 
     val devDept = DevelopmentDepartment()
     val testDept = TestingDepartment()
 
-    devDept.printDepartmentGoal()
-    testDept.printDepartmentGoal()
+    val reportGenerators: List<ReportGenerator> = listOf(employee, devDept, testDept)
+
+    for (generator in reportGenerators) {
+        println(generator.generateReport())
+        println()
+    }
 }
